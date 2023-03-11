@@ -1,13 +1,14 @@
 const controlStep = 2;
+const ballAngleDegreesSpan = document.getElementById('ballAngleDegrees')
 
 let canvas = document.getElementById('myCanvas');
 let ctx = canvas.getContext('2d');
 //variables for ball
 let x = canvas.width/2;
 let y = 20;
-let u = 1.5; // speed in x direction
-let v = 1.5; // speed in y direction
 let w = 20;
+let ballAngleDegrees = -45;
+const ballVelocity = 2;
 
 let leftPoints = 0;
 
@@ -25,21 +26,29 @@ function animate() {
   ctx.fillRect(x, y, w, w);
   ctx.fillRect(10, leftTop, 10, 120);
   ctx.fillRect(canvas.width-20, rightTop, 10, 120);
+
+  const ballAngleRadians = ballAngleDegrees / 180 * Math.PI;
+  let u = Math.cos(ballAngleRadians) * ballVelocity; // speed in x direction
+  let v = -Math.sin(ballAngleRadians) * ballVelocity; // speed in y direction
   x += u;
   y += v;
 
-  if (x+u <15) {
-    u = -u;
+  if (x < 0) {
+    ballAngleDegrees = 180 - ballAngleDegrees;
+    x = 0;
+  } else if (x > canvas.width) {
+    ballAngleDegrees = 180 - ballAngleDegrees;
+    x = canvas.width;
   }
-  if (x+u+w > canvas.width-15) {
-    u = -u;
+
+  if (y < 0) {
+    ballAngleDegrees = -ballAngleDegrees;
+    y = 0;
+  } else if (y > canvas.height) {
+    ballAngleDegrees = -ballAngleDegrees;
+    y = canvas.height;
   }
-  if (y+v < 0) {
-    v = -v;
-  }
-  if (y+v+w > canvas.height) {
-    v = -v;
-  }
+  ballAngleDegreesSpan.textContent = ballAngleDegrees;
 
   leftTop += leftControl;
   if (leftTop >= canvas.height - 120) {
