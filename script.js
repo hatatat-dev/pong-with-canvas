@@ -1,3 +1,5 @@
+const controlStep = 2;
+
 let canvas = document.getElementById('myCanvas');
 let ctx = canvas.getContext('2d');
 //variables for ball
@@ -8,6 +10,9 @@ let v = 1.5; // speed in y direction
 let w = 20;
 
 let leftPoints = 0;
+
+let leftControl = 0;
+let rightControl = 0;
 
 //position for left pad
 let leftTop = 240;
@@ -35,39 +40,58 @@ function animate() {
   if (y+v+w > canvas.height) {
     v = -v;
   }
+
+  leftTop += leftControl;
+  if (leftTop >= canvas.height - 120) {
+    leftTop = canvas.height - 120;
+    leftControl = 0;
+  } else if (leftTop < 0) {
+    leftTop = 0;
+    leftControl = 0;
+  }
+
+  rightTop += rightControl;
+  if (rightTop >= canvas.height - 120) {
+    rightTop = canvas.height - 120;
+    rightControl = 0;
+  } else if (rightTop < 0) {
+    rightTop = 0;
+    rightControl = 0;
+  }
 }
 
 setInterval(animate, 0.1);
 
-function wkey(event) {
-  if(event.key=="w") {
-    if (leftTop > 0) {
-    leftTop = leftTop-40;
-    }
+function handleKeyDown(event) {
+  switch (event.key) {
+    case "w":
+      leftControl = -controlStep;
+      break;
+
+    case "s":
+      leftControl = controlStep;
+      break;
+
+    case "ArrowUp":
+      rightControl = -controlStep;
+      break;
+
+    case "ArrowDown":
+      rightControl = controlStep;
+      break;
   }
 }
 
-function skey(event) {
-  if(event.key=="s") {
-    if (leftTop < canvas.height-120) {
-    leftTop = leftTop+40;
-    }
-  }
-}
+function handleKeyUp(event) {
+  switch (event.key) {
+    case "w":
+    case "s":
+      leftControl = 0;
+      break;
 
-function upkey(event) {
-  if(event.key=="ArrowUp") {
-    if (rightTop > 0) {
-    rightTop = rightTop-40;
-    }
+    case "ArrowUp":
+    case "ArrowDown":
+      rightControl = 0;
+      break;
   }
-}
-
-function downkey(event) {
-  if(event.key=="ArrowDown") {
-    if (rightTop < canvas.height-120) {
-    rightTop = rightTop+40;
-    }
-  }
-  console.log(event)
 }
