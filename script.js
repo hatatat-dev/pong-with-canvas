@@ -1,3 +1,7 @@
+fucntion reset() {
+  
+}
+
 const controlStep = 4;
 const ballAngleDegreesSpan = document.getElementById('ballAngleDegrees');
 const deadZoneDegrees = 15;
@@ -13,7 +17,7 @@ let x = canvas.width/2;
 let y = 20;
 let w = 20;
 let ballAngleDegrees = -45;
-const ballVelocity = 1;
+const ballVelocity = 2.5;
 
 const paddleHeight = 120;
 const paddleWidth = 10;
@@ -24,10 +28,10 @@ let leftControl = 0;
 let rightControl = 0;
 
 //variables for left pad
-let leftTop = 240;
+let leftTop = (canvas.height - paddleHeight)/2;
 let leftPoints = 0;
 //variables for right pad
-let rightTop = 240;
+let rightTop = (canvas.height - paddleHeight)/2;
 let rightPoints = 0;
 
 function animate() {
@@ -43,15 +47,25 @@ function animate() {
   x += u;
   y += v;
 
-  if (x < paddleMargin+paddleWidth) {
+  if (x < paddleMargin+paddleWidth&&leftTop-w < y&&y < leftTop+paddleHeight+w) {
     //TODO
     ballAngleDegrees = 180 - ballAngleDegrees + Math.random() * 15;
-    x = paddleMargin+paddlewidth;
-  } else if (x > canvas.width-paddleMargin-paddleWidth-w) {
+    x = paddleMargin+paddleWidth;
+  } else if (x > canvas.width-paddleMargin-paddleWidth-w&&rightTop-w < y&&y< rightTop+paddleHeight+w) {
     ballAngleDegrees = 180 - ballAngleDegrees + Math.random() * 15;
     x = canvas.width-paddleMargin-paddleWidth-w;
   }
 
+  if (x < paddleMargin) {
+    rightPoints++;
+    //add function reset
+  }
+
+  if (x > canvas.width - paddleMargin) {
+    leftPoints++;
+  //add function reset
+  }
+  
   if (y < 0) {
     ballAngleDegrees = -ballAngleDegrees;
     y = 0;
@@ -88,14 +102,6 @@ function animate() {
   }
 }
 
-
-//points() is a function to calculate points
-//function leftPoints{
-  //if points(){
-    //leftPoints
-  //}
-//}
-
 function handleKeyDown(event) {
   switch (event.key) {
     case "w":
@@ -127,22 +133,6 @@ function handleKeyUp(event) {
     case "ArrowDown":
       rightControl = 0;
       break;
-  }
-}
-
-function points() {
-  if (x < 20) {
-    if (leftTop-w < y < leftTop+120+w) {
-      rightPoints++;
-      console.log(rightPoints);
-      x = canvas.width/2;
-    }
-  } else if (x > canvas.width-20) {
-    if (rightTop-1 < y < rightTop+121) {
-      console.log(leftPoints);
-      leftPoints++;
-      x = canvas.width/2;
-    }
   }
 }
 
