@@ -1,6 +1,6 @@
 const ai = document.getElementById("ai");
 const controlStep = 4;
-const aiControlStep = 2;
+//const aiControlStep = 2;
 const ballAngleDegreesSpan = document.getElementById('ballAngleDegrees');
 const deadZoneDegrees = 45;
 const leftPointsSpan = document.getElementById('leftPoints');
@@ -50,10 +50,15 @@ reset();
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = '#99DDCC';
   ctx.fillRect(x, y, w, w);
   ctx.fillRect(paddleMargin, leftTop, paddleWidth, paddleHeight);
   ctx.fillRect(canvas.width-paddleMargin-paddleWidth, rightTop, paddleWidth, paddleHeight);
+  ctx.font = "30px Rubik Iso";
+  ctx.fillText(leftPoints, canvas.width/2-50, 40);
+  ctx.fillText("–", canvas.width/2-7, 40);
+  ctx.fillText(rightPoints, canvas.width/2+38, 40);
+  
 
   const ballAngleRadians = ballAngleDegrees / 180 * Math.PI;
   let u = Math.cos(ballAngleRadians) * ballVelocity; // speed in x direction
@@ -71,11 +76,17 @@ function animate() {
 
   if (x < 0) {
     rightPoints++;
+    if (rightPoints > 9) {
+      rightPoints = 0;
+    }
     reset();
   }
 
   if (x > canvas.width) {
     leftPoints++;
+    if (leftPoints > 9) {
+      leftPoints = 0;
+    }
     reset();
   }
   
@@ -105,6 +116,7 @@ if (ballAngleDegrees < 90 + deadZoneDegrees&&ballAngleDegrees > 90) {
   ballAngleDegrees = ballAngleDegrees = 270 - deadZoneDegrees;
 }
   if (ai.checked) {
+    const aiControlStep = Number(document.form.aiControlStep.value);
     let aiControl = 0;
     if (leftTop > y) {
       aiControl = -aiControlStep;

@@ -12,15 +12,23 @@
 
 <body onkeydown="handleKeyDown(event)" onkeyup="handleKeyUp(event)">
   <h1>Pong!</h1>
-  <h2 id="points"> 
-    <span id="leftPoints"></span> -
-    <span id="rightPoints"></span>
-  </h2>
   <canvas id="myCanvas" width="700" height="600px"></canvas>
   <div id="instructions">
+    <div id = "box">
     <input type="checkbox" checked id="ai"><label for="ai">Artificial Intelligence</label>
+    </div>
+    <form name="form" id="speed">
+      <div id="slow">
+        <input type="radio" name="aiControlStep" value="1.5" id="aiControlStep1">
+        <label for="aiControlStep1">Slow</label>
+      </div>
+      <div id="fast">
+        <input type="radio" name="aiControlStep" value="2" id="aiControlStep2" checked>
+        <label for="aiControlStep2">Fast</label>
+      </div>
+    </form>
     <br>
-    If playing against the unbeatable AI, your controls will be the arrow keys, and you will be controlling the paddle on the right. If you want to play multiplayer, uncheck the Artificial Intelligence box. Your friend can now use W and S to move the left paddle up and down. 
+    If playing against the nearly unbeatable AI, your controls will be the arrow keys, and you will be controlling the paddle on the right. If you want to play multiplayer, uncheck the Artificial Intelligence box. Your friend can now use W and S to move the left paddle up and down. It's first to ten, so good luck!
   </div>
  
   
