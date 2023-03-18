@@ -1,4 +1,6 @@
+const ai = document.getElementById("ai");
 const controlStep = 4;
+const aiControlStep = 2;
 const ballAngleDegreesSpan = document.getElementById('ballAngleDegrees');
 const deadZoneDegrees = 45;
 const leftPointsSpan = document.getElementById('leftPoints');
@@ -32,6 +34,7 @@ function reset() {
   x = (canvas.width - w) / 2;
   y = (canvas.height - w) / 2
   ballAngleDegrees = Math.random() * 360;
+  ballAngleDegrees = Math.floor(ballAngleDegrees);
   if (ballAngleDegrees == 90|| ballAngleDegrees == 270) {
     ballAngleDegrees = 45;
   }
@@ -101,14 +104,28 @@ if (ballAngleDegrees < 90 + deadZoneDegrees&&ballAngleDegrees > 90) {
 } else if (ballAngleDegrees > 270 - deadZoneDegrees&&ballAngleDegrees < 270) {
   ballAngleDegrees = ballAngleDegrees = 270 - deadZoneDegrees;
 }
-
-  leftTop += leftControl;
-  if (leftTop >= canvas.height - paddleHeight) {
-    leftTop = canvas.height - paddleHeight;
-    leftControl = 0;
-  } else if (leftTop < 0) {
-    leftTop = 0;
-    leftControl = 0;
+  if (ai.checked) {
+    let aiControl = 0;
+    if (leftTop > y) {
+      aiControl = -aiControlStep;
+    } else if (leftTop + paddleHeight < y) {
+      aiControl = aiControlStep;
+    }
+   leftTop += aiControl;
+    if (leftTop >= canvas.height - paddleHeight) {
+      leftTop = canvas.height - paddleHeight;
+    } else if (leftTop < 0) {
+      leftTop = 0;
+    } 
+  } else{
+    leftTop += leftControl;
+    if (leftTop >= canvas.height - paddleHeight) {
+      leftTop = canvas.height - paddleHeight;
+      leftControl = 0;
+    } else if (leftTop < 0) {
+      leftTop = 0;
+      leftControl = 0;
+    }
   }
 
   rightTop += rightControl;
@@ -167,10 +184,3 @@ function update() {
 
 setInterval(update, 0.1);
 
-function singlePlayer() {
-  
-}
-
-function multiplayer() {
-  
-}

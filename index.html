@@ -12,11 +12,16 @@
 
 <body onkeydown="handleKeyDown(event)" onkeyup="handleKeyUp(event)">
   <h1>Pong!</h1>
-  <h2> 
+  <h2 id="points"> 
     <span id="leftPoints"></span> -
     <span id="rightPoints"></span>
   </h2>
   <canvas id="myCanvas" width="700" height="600px"></canvas>
+  <div id="instructions">
+    <input type="checkbox" checked id="ai"><label for="ai">Artificial Intelligence</label>
+    <br>
+    If playing against the unbeatable AI, your controls will be the arrow keys, and you will be controlling the paddle on the right. If you want to play multiplayer, uncheck the Artificial Intelligence box. Your friend can now use W and S to move the left paddle up and down. 
+  </div>
  
   
   <script src="script.js"></script>
