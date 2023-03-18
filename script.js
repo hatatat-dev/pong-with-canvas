@@ -12,11 +12,14 @@ let x = canvas.width/2;
 let y = canvas.height/2;
 let w = 15;
 let ballAngleDegrees = -45;
-let ballVelocity = 10;
+let ballVelocity = 3;
 
 const paddleHeight = 80;
 const paddleWidth = 10;
 const paddleMargin = 20;
+const pointsLimit = 2;
+
+let runningUpdate=undefined;
 
 
 let leftControl = 0;
@@ -76,16 +79,20 @@ function animate() {
 
   if (x < 0) {
     rightPoints++;
-    if (rightPoints > 9) {
+    if (rightPoints >= pointsLimit) {
       rightPoints = 0;
+      leftPoints = 0;
+      rightWon();
     }
     reset();
   }
 
   if (x > canvas.width) {
     leftPoints++;
-    if (leftPoints > 9) {
+    if (leftPoints >= pointsLimit) {
       leftPoints = 0;
+      rightPoints = 0;
+      leftWon();
     }
     reset();
   }
@@ -185,8 +192,8 @@ function handleKeyUp(event) {
 }
 
 function displayVariables() {
-  leftPointsSpan.textContent = leftPoints;
-  rightPointsSpan.textContent = rightPoints;
+  //leftPointsSpan.textContent = leftPoints;
+  //rightPointsSpan.textContent = rightPoints;
 }
 
 function update() {
@@ -194,5 +201,35 @@ function update() {
   displayVariables();
 }
 
-setInterval(update, 0.1);
+function restart() {
+  if (runningUpdate!=undefined) {
+    alert('update is already running');
+    return;
+  }
+  leftPoints = 0;
+  rightPoints = 0;
+  reset();
+  runningUpdate = setInterval(update, 0.1);
+}
 
+function leftWon() {
+  clearInterval(runningUpdate);
+  runningUpdate = undefined;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  leftPoints = 0;
+  rightPoints = 0;
+  ctx.font = "80px Rubik Iso";
+  ctx.fillText("Left Won!", 20, 200);
+}
+
+function rightWon() {
+  clearInterval(runningUpdate);
+  runningUpdate = undefined;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  leftPoints = 0;
+  rightPoints = 0;
+  ctx.font = "80px Rubik Iso";
+  ctx.fillText("Right Won!", 20, 200);
+}
+
+restart();

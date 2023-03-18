@@ -34,6 +34,7 @@ h1{
 }
 
 #speed {
+  display: flex;
   margin-top: 20px;
 }
 
@@ -47,7 +48,6 @@ h1{
 }
 
 #fast {
-  float: left;
   border-style: solid;
   border-radius: 4rem;
   border-color: #000;
@@ -58,4 +58,21 @@ h1{
 
 @font-face {
   font-family: 'Rubik Iso';
+}
+
+.info {
+  margin-top: -20px;
+  line-height: 2rem;
+}
+
+button {
+  margin-top: 20px;
+  border-style: solid;
+  border-radius: 4rem;
+  border-color: #000;
+  background-color: #99DDCC;
+  color: #000;
+  width: 120px;
+  font-family: 'Rubik Iso';
+  font-size: 2rem;
 }
