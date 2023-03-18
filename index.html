@@ -5,15 +5,19 @@
   <meta name="viewport" content="width=device-width">
   <title>replit</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Iso&display=swap" rel="stylesheet">
 </head>
 
 <body onkeydown="handleKeyDown(event)" onkeyup="handleKeyUp(event)">
   <h1>Pong!</h1>
-  <h2>Score:</h2>
+  <h2> 
+    <span id="leftPoints"></span> -
+    <span id="rightPoints"></span>
+  </h2>
   <canvas id="myCanvas" width="700" height="600px"></canvas>
-  <div>ballAngleDegrees: <span id="ballAngleDegrees"></span></div>
-  <div>leftPoints: <span id="leftPoints"></span></div>
-  <div>rightPoints: <span id="rightPoints"></span></div>
+ 
   
   <script src="script.js"></script>
 </body>

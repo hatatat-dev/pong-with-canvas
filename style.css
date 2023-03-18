@@ -1,9 +1,21 @@
 #myCanvas {
-  border: 1px solid white;
-  background-color: black;
+  border: 1px solid #E27D60;
+  background-color: #fbff00;
 }
 
 html {
-  background-color: white;
-  color: orange;
+  background-color: #000;
+  color: #fbff00;
+}
+
+h2{
+  font-size: 3rem;
+  margin-left: 300px;
+  font-family: 'Rubik Iso', cursive;
+}
+h1{
+  font-family: 'Rubik Iso';
+  font-size: 3rem;
+  margin-left: 290px;
+  
 }

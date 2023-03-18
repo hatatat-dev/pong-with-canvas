@@ -1,27 +1,20 @@
-fucntion reset() {
-  
-}
-
 const controlStep = 4;
 const ballAngleDegreesSpan = document.getElementById('ballAngleDegrees');
-const deadZoneDegrees = 15;
+const deadZoneDegrees = 45;
 const leftPointsSpan = document.getElementById('leftPoints');
 const rightPointsSpan = document.getElementById('rightPoints');
-//ok
-//you can use left top and right top compared to y
-//the paddle is 120 pixels if that helps
 let canvas = document.getElementById('myCanvas');
 let ctx = canvas.getContext('2d');
 //variables for ball
 let x = canvas.width/2;
-let y = 20;
-let w = 20;
+let y = canvas.height/2;
+let w = 15;
 let ballAngleDegrees = -45;
-const ballVelocity = 2.5;
+let ballVelocity = 10;
 
-const paddleHeight = 120;
+const paddleHeight = 80;
 const paddleWidth = 10;
-const paddleMargin = 10;
+const paddleMargin = 20;
 
 
 let leftControl = 0;
@@ -34,9 +27,27 @@ let leftPoints = 0;
 let rightTop = (canvas.height - paddleHeight)/2;
 let rightPoints = 0;
 
+function reset() {
+  ballVelocity = 0;
+  x = (canvas.width - w) / 2;
+  y = (canvas.height - w) / 2
+  ballAngleDegrees = Math.random() * 360;
+  if (ballAngleDegrees == 90|| ballAngleDegrees == 270) {
+    ballAngleDegrees = 45;
+  }
+  setTimeout(resume, 2000);
+}
+
+function resume() {
+  ballVelocity = 3;
+}
+
+reset();
+
+
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = 'black';
   ctx.fillRect(x, y, w, w);
   ctx.fillRect(paddleMargin, leftTop, paddleWidth, paddleHeight);
   ctx.fillRect(canvas.width-paddleMargin-paddleWidth, rightTop, paddleWidth, paddleHeight);
@@ -48,22 +59,21 @@ function animate() {
   y += v;
 
   if (x < paddleMargin+paddleWidth&&leftTop-w < y&&y < leftTop+paddleHeight+w) {
-    //TODO
-    ballAngleDegrees = 180 - ballAngleDegrees + Math.random() * 15;
+    ballAngleDegrees = 180 - ballAngleDegrees + 15 - Math.random() * 30;
     x = paddleMargin+paddleWidth;
   } else if (x > canvas.width-paddleMargin-paddleWidth-w&&rightTop-w < y&&y< rightTop+paddleHeight+w) {
-    ballAngleDegrees = 180 - ballAngleDegrees + Math.random() * 15;
+    ballAngleDegrees = 180 - ballAngleDegrees + 15 - Math.random() * 30;
     x = canvas.width-paddleMargin-paddleWidth-w;
   }
 
-  if (x < paddleMargin) {
+  if (x < 0) {
     rightPoints++;
-    //add function reset
+    reset();
   }
 
-  if (x > canvas.width - paddleMargin) {
+  if (x > canvas.width) {
     leftPoints++;
-  //add function reset
+    reset();
   }
   
   if (y < 0) {
@@ -81,7 +91,16 @@ function animate() {
     ballAngleDegrees -= 360;
   }
   ballAngleDegrees = Math.floor(ballAngleDegrees);
-//  if (ballAngleDegrees>90-deadZoneDegrees)
+if (ballAngleDegrees > 90 - deadZoneDegrees&&ballAngleDegrees < 90) {
+  ballAngleDegrees = 90 - deadZoneDegrees;
+}else if (ballAngleDegrees < 270 + deadZoneDegrees&&ballAngleDegrees > 270) {
+ ballAngleDegrees = 270 + deadZoneDegrees;
+}
+if (ballAngleDegrees < 90 + deadZoneDegrees&&ballAngleDegrees > 90) {
+  ballAngleDegrees = 90 + ballAngleDegrees;
+} else if (ballAngleDegrees > 270 - deadZoneDegrees&&ballAngleDegrees < 270) {
+  ballAngleDegrees = ballAngleDegrees = 270 - deadZoneDegrees;
+}
 
   leftTop += leftControl;
   if (leftTop >= canvas.height - paddleHeight) {
@@ -139,7 +158,6 @@ function handleKeyUp(event) {
 function displayVariables() {
   leftPointsSpan.textContent = leftPoints;
   rightPointsSpan.textContent = rightPoints;
-  ballAngleDegreesSpan.textContent = ballAngleDegrees;
 }
 
 function update() {
@@ -148,3 +166,11 @@ function update() {
 }
 
 setInterval(update, 0.1);
+
+function singlePlayer() {
+  
+}
+
+function multiplayer() {
+  
+}
